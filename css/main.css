@@ -1,24 +1,79 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: rgb(252, 139, 95);
+    margin: 0 10px;
+    padding: 0;
 }
 
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-family: Poppin, sans-serif;
+    padding: 0 10px;
 }
 
-nav>.btn {
-    padding: 10px 20px;
+.btn {
+    padding: 1rem 2rem;
     background-color: gray;
     color: whitesmoke;
-    border-radius: 5px;
-    border: none;
-    transition: all 0.4;
+    border-radius: 2px;
+    border: 1px solid rgba(73, 73, 73, 0.678);
+    transform: scaleX(100%);
+    transition: all 0.4s;
 }
 
-nav>.btn:hover {
+.btn:hover {
     cursor: pointer;
-    background-color: lightgray;
     color: rgb(44, 44, 44);
+    background-color: lightgray;
+    transform: scaleX(110%);
+}
+
+/* Main */
+
+.location {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.location>div>h4 {
+    font-weight: bold;
+    font-size: 1.6rem;
+    display: inline-block;
+    padding: 0;
+    padding-right: 10px;
+}
+
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 20px;
+}
+
+.my-map {
+    flex-basis: 50%;
+}
+
+.main-content>aside {
+    flex-basis: 50%;
+}
+
+/* Help */
+
+.debug>* {
+    border: 2px solid rgb(255, 228, 77);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Poppin;
+    src: url(../fonts/Poppins-Bold.ttf);
 }
