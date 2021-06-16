@@ -16,9 +16,9 @@
         </h1>
 
         <nav>
-            <button class="btn" onclick="onEnterLocation()">Enter Location</button>
-            <button class="btn">GO</button>
             <button class="btn btn-pan" onclick="onPanToMyLocation()">My Location</button>
+            <button class="btn" onclick="onEnterLocation()">Enter Location</button>
+            <!-- <button class="btn">GO</button> -->
 
         </nav>
     </header>
@@ -26,17 +26,15 @@
     <main class="main-container">
         <div class="location">
             <div>
-                <h4>location:</h4>
-                <span class="current-location">Central Park, new york</span>
+                <h2 class="current-location"></h2>
             </div>
             <button class="btn btn-copy-location" onclick="onCopyMyLocation()">Copy Location</button>
         </div>
 
         <div class="main-content">
             <aside class="location-info">
-                <div class="weather">weather today</div>
+                <div class="weather"></div>
                 <div class="my-locations-area">
-
                 </div>
             </aside>
 
@@ -45,11 +43,6 @@
             </div>
 
         </div>
-
-
-        <p>You are at: <span class="user-pos"></span></p>
-        <p>Locations: <span class="locs"></span></p>
-
     </main>
 
 

@@ -21,13 +21,10 @@ function onInit() {
         .catch(() => console.log('Error: cannot init map'))
         .then(() => {
             onGotoPositionByUrl()
-            renderCurrAddress(mapService.getCenterCoords())
-            weatherService.getWeather(mapService.getCenterCoords())
-                .then((msg) => {
-                    renderWeather(msg)
-                }).catch((err) => {
-                    console.log(err);
-                })
+            renderLocationDetails()
+            document.querySelector('.my-map').classList.add('open-map')
+        }).catch((err) => {
+            console.log(err);
         })
 }
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -100,7 +97,8 @@ function onPanToMyLocation() {
 }
 
 function onEnterLocation() {
-    const locationName = prompt('Enter locationName')
+    const locationName = prompt('Enter location name')
+    if (!locationName) return
     mapService.searchLocation(locationName)
         .then((res) => {
             mapService.panTo(res.lat, res.lng)
@@ -108,10 +106,6 @@ function onEnterLocation() {
             console.error(rej)
             onPanToMyLocation()
         })
-        // mapService.panTo(position.lat, position.lng)
-        // mapService.addMarker(position)
-        // get position of that location from 
-        // pan to that location and make marker
 }
 
 function renderCurrAddress({ lat, lng }) {
@@ -139,14 +133,30 @@ function renderMyPlaces() {
     elContainer.innerHTML = strHTML
 }
 
+function selectWeatherImg(weather) {
+    const sunImgSrc = 'img/sunny.png'
+    const cloudImgSrc = 'img/partly_cloudy.png'
+    const rainImgSrc = 'img/rain_s_cloudy.png'
+        // ------------
+    const val = weather.toLowerCase();
+    if (val.includes('cloud')) return cloudImgSrc
+    else if (val.includes('rain')) return rainImgSrc
+    else if (val.includes('sun')) return sunImgSrc
+}
+
 function renderWeather(msg) {
     const temp = Math.round(msg.temp - 273.15);
     const weather = msg.weather
+        // -------
+    const selectedImg = selectWeatherImg(weather);
     const strHTML = `
 
     <div class="temp-box">
-        <h4>Temp: ${temp}</h4>
-        <span>${weather}</span>
+        <div class="inner-temp-box">
+            <h4>${temp}</h4>
+            <img src="${selectedImg}" alt="">
+        </div>
+        <span class="forecast">${weather}</span>
     </div>
     
     `
@@ -156,4 +166,15 @@ function renderWeather(msg) {
 function onRemoveLocation(idx) {
     mapService.removeLocation(idx)
     renderMyPlaces()
+}
+
+function renderLocationDetails() {
+    const coords = mapService.getCenterCoords()
+    renderCurrAddress(coords);
+    weatherService.getWeather(coords)
+        .then(renderWeather)
+        .then(() => {
+            document.querySelector('.weather').classList.add('open-weather')
+            document.querySelector('.my-locations-area').classList.add('open-weather')
+        })
 }
