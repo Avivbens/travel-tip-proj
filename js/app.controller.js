@@ -16,7 +16,7 @@ function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready')
-            mapService.addListeners(renderMyPlaces, renderCurrAddress)
+            mapService.addListeners(renderMyPlaces, renderLocationDetails)
         })
         .catch(() => console.log('Error: cannot init map'))
         .then(() => {
@@ -79,7 +79,7 @@ function onGetUserPos() {
 
 function onPanTo(lat, lng) {
     mapService.panTo(+lat, +lng)
-    renderCurrAddress({ lat, lng })
+    renderCurrAddress({ lat: +lat, lng: +lng })
 }
 
 function onPanToMyLocation() {
@@ -89,7 +89,7 @@ function onPanToMyLocation() {
             position = { lat: pos.coords.latitude, lng: pos.coords.longitude }
             mapService.panTo(position.lat, position.lng)
             mapService.addMarker(position)
-            renderCurrAddress(position)
+            renderLocationDetails()
         })
         .catch(err => {
             console.log('err!!!', err)
@@ -102,7 +102,7 @@ function onEnterLocation() {
     mapService.searchLocation(locationName)
         .then((res) => {
             mapService.panTo(res.lat, res.lng)
-            renderCurrAddress({ lat: res.lat, lng: res.lng })
+            renderLocationDetails()
         }).catch((rej) => {
             console.error(rej)
             onPanToMyLocation()
@@ -143,6 +143,7 @@ function selectWeatherImg(weather) {
     if (val.includes('cloud')) return cloudImgSrc
     else if (val.includes('rain')) return rainImgSrc
     else if (val.includes('sun')) return sunImgSrc
+    return sunImgSrc
 }
 
 function renderWeather(msg) {
@@ -154,7 +155,7 @@ function renderWeather(msg) {
 
     <div class="temp-box">
         <div class="inner-temp-box">
-            <h4>${temp}</h4>
+            <h4>${temp}<span>°</span></h4>
             <img src="${selectedImg}" alt="">
         </div>
         <span class="forecast">${weather}</span>

@@ -17,14 +17,14 @@ export const mapService = {
     getAddressByCoords
 }
 
-function addListeners(renderTable, renderCurrAddress) {
+function addListeners(renderTable, renderLocationDetails) {
     gMap.addListener("click", (mapsMouseEvent) => {
         //get name --> get coords --> push name and coords to the table as a tr wit h go & delete btns
         const locationName = prompt('Enter Location Name:')
         if (!locationName) return
         const gNewPlaceCoords = mapsMouseEvent.latLng.toJSON()
         addMarker(gNewPlaceCoords)
-        renderCurrAddress(gNewPlaceCoords)
+        renderLocationDetails()
         gLocations.push({
             name: locationName,
             location: gNewPlaceCoords
@@ -83,6 +83,7 @@ function searchLocation(value) {
 }
 
 function getAddressByCoords(lat, lng) {
+    if ((lat > 90 || lat < -90) || (lng < -180 || lng > 180)) return
     const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_GEO_KEY}`
     return axios.get(URL)
         .then(res => res.data.results[0].formatted_address)

@@ -69,12 +69,16 @@ button {
     height: 67px;
 }
 
-.location>div>h4 {
+.inner-temp-box>h4 {
     font-weight: bold;
     font-size: 1.6rem;
     display: inline-block;
     padding: 0;
     padding-right: 10px;
+}
+
+.inner-temp-box>h4>span {
+    font-weight: normal;
 }
 
 .main-content {
