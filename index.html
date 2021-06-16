@@ -18,7 +18,7 @@
         <nav>
             <button class="btn" onclick="onEnterLocation()">Enter Location</button>
             <button class="btn">GO</button>
-            <button class="btn btn-pan" onclick="onPanToMyLocationl()">My Location</button>
+            <button class="btn btn-pan" onclick="onPanToMyLocation()">My Location</button>
 
         </nav>
     </header>
@@ -32,20 +32,20 @@
             <button class="btn btn-copy-location">Copy Location</button>
         </div>
 
-        <div class="main-content debug">
-            <aside class="debug">
+        <div class="main-content">
+            <aside class="location-info">
                 <div class="weather">weather today</div>
-                <div class="locations">locations</div>
+                <div class="my-locations-area">
+
+                </div>
             </aside>
 
 
-            <div class="my-map" id="map" style="width: 100%; height: 400px;"></div>
+            <div class="my-map" id="map" style="width: 100%; height: 400px;">
+            </div>
 
         </div>
 
-        <!-- <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Specific Location</button> -->
-        <!-- <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button> -->
-        <!-- <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button> -->
 
         <p>You are at: <span class="user-pos"></span></p>
         <p>Locations: <span class="locs"></span></p>
