@@ -44,7 +44,7 @@ function onGotoPositionByUrl() {
 
 function onCopyMyLocation() {
     const center = mapService.getCenterCoords()
-    const url = window.location.origin + `?lat=${center.lat}&lng=${center.lng}`
+    const url = window.location.href + `?lat=${center.lat}&lng=${center.lng}`
     copyToClipboard(url);
 }
 
