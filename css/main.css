@@ -97,6 +97,33 @@ button {
 }
 
 
+/* Weather area */
+
+.weather {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.temp-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    height: 70%;
+}
+
+.temp-box>h4 {
+    font-size: x-large;
+}
+
+.temp-box>span {
+    /*  */
+}
+
+
 /* Help */
 
 .debug * {

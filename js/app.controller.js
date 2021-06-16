@@ -22,8 +22,12 @@ function onInit() {
         .then(() => {
             onGotoPositionByUrl()
             renderCurrAddress(mapService.getCenterCoords())
-        }).catch((err) => {
-            console.log(err);
+            weatherService.getWeather(mapService.getCenterCoords())
+                .then((msg) => {
+                    renderWeather(msg)
+                }).catch((err) => {
+                    console.log(err);
+                })
         })
 }
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -133,6 +137,20 @@ function renderMyPlaces() {
         `
     }).join('')
     elContainer.innerHTML = strHTML
+}
+
+function renderWeather(msg) {
+    const temp = Math.round(msg.temp - 273.15);
+    const weather = msg.weather
+    const strHTML = `
+
+    <div class="temp-box">
+        <h4>Temp: ${temp}</h4>
+        <span>${weather}</span>
+    </div>
+    
+    `
+    document.querySelector('.weather').innerHTML = strHTML
 }
 
 function onRemoveLocation(idx) {
