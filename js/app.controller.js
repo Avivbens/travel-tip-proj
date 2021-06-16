@@ -16,7 +16,7 @@ function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready')
-            mapService.addListeners(renderMyPlaces)
+            mapService.addListeners(renderMyPlaces, renderCurrAddress)
         })
         .catch(() => console.log('Error: cannot init map'))
         .then(() => {
@@ -102,6 +102,7 @@ function onEnterLocation() {
     mapService.searchLocation(locationName)
         .then((res) => {
             mapService.panTo(res.lat, res.lng)
+            renderCurrAddress({ lat: res.lat, lng: res.lng })
         }).catch((rej) => {
             console.error(rej)
             onPanToMyLocation()

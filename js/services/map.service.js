@@ -17,13 +17,14 @@ export const mapService = {
     getAddressByCoords
 }
 
-function addListeners(renderTable) {
+function addListeners(renderTable, renderCurrAddress) {
     gMap.addListener("click", (mapsMouseEvent) => {
         //get name --> get coords --> push name and coords to the table as a tr wit h go & delete btns
         const locationName = prompt('Enter Location Name:')
         if (!locationName) return
         const gNewPlaceCoords = mapsMouseEvent.latLng.toJSON()
         addMarker(gNewPlaceCoords)
+        renderCurrAddress(gNewPlaceCoords)
         gLocations.push({
             name: locationName,
             location: gNewPlaceCoords
