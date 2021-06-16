@@ -1,4 +1,7 @@
 'use strict'
+const API_GEO_KEY = `AIzaSyCV0HsS3xb7AxL5oWH9U8-smUFLX_v6J94`
+const API_MAP_KEY = 'AIzaSyAMclp12v7QqpL_2tVu4S16SDA896NlOnU'
+    // 
 var gMap
 var gLocations = []
 export const mapService = {
@@ -8,7 +11,10 @@ export const mapService = {
     searchLocation,
     getLocations,
     addListeners,
-    removeLocation
+    removeLocation,
+    setMapZoom,
+    getCenterCoords,
+    getAddressByCoords
 }
 
 function addListeners(renderTable) {
@@ -30,7 +36,7 @@ function getLocations() {
     return gLocations
 }
 
-function initMap(lat = 32.0749831, lng = 34.9120554) {
+function initMap(lat = 31.9273302, lng = 34.7890692) {
     return _connectGoogleApi()
         .then(() => {
             gMap = new google.maps.Map(
@@ -39,6 +45,10 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                     zoom: 15
                 })
         })
+}
+
+function setMapZoom(val = 15) {
+    gMap.zoom = val
 }
 
 function addMarker(loc) {
@@ -60,7 +70,6 @@ function panTo(lat, lng) {
 }
 
 function searchLocation(value) {
-    const API_GEO_KEY = `AIzaSyCV0HsS3xb7AxL5oWH9U8-smUFLX_v6J94`
     const words = value.replace(' ', '+')
     const URL = `
     https://maps.googleapis.com/maps/api/geocode/json?address=${words},+CA&key=${API_GEO_KEY}
@@ -72,9 +81,23 @@ function searchLocation(value) {
         })
 }
 
+function getAddressByCoords(lat, lng) {
+    const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_GEO_KEY}`
+    return axios.get(URL)
+        .then(res => res.data.results[0].formatted_address)
+        .catch(err => {
+            console.log('Had Issues: ', err)
+        })
+}
+
+function getCenterCoords() {
+    const lat = gMap.getCenter().lat()
+    const lng = gMap.getCenter().lng()
+    return { lat, lng }
+}
+
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_MAP_KEY = 'AIzaSyAMclp12v7QqpL_2tVu4S16SDA896NlOnU'
     var elGoogleApi = document.createElement('script')
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_MAP_KEY}`
     elGoogleApi.async = true

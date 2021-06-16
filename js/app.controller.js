@@ -10,6 +10,7 @@ window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onEnterLocation = onEnterLocation
 window.onRemoveLocation = onRemoveLocation
+window.onCopyMyLocation = onCopyMyLocation
 
 function onInit() {
     mapService.initMap()
@@ -18,12 +19,37 @@ function onInit() {
             mapService.addListeners(renderMyPlaces)
         })
         .catch(() => console.log('Error: cannot init map'))
+        .then(() => {
+            onGotoPositionByUrl()
+            renderCurrAddress(mapService.getCenterCoords())
+        }).catch((err) => {
+            console.log(err);
+        })
 }
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
+}
+
+function onGotoPositionByUrl() {
+    const lat = new URLSearchParams(window.location.search).get('lat')
+    const lng = new URLSearchParams(window.location.search).get('lng')
+    if (!lat || !lng) return
+    onPanTo(lat, lng)
+    mapService.setMapZoom(17)
+}
+
+function onCopyMyLocation() {
+    const center = mapService.getCenterCoords()
+    const url = window.location.origin + `?lat=${center.lat}&lng=${center.lng}`
+    copyToClipboard(url);
+}
+
+function copyToClipboard(txt) {
+    navigator.clipboard.writeText(txt);
+    alert('Location copied to clipboard')
 }
 
 function onAddMarker() {
@@ -50,8 +76,9 @@ function onGetUserPos() {
         })
 }
 
-function onPanTo(lng, lat) {
-    mapService.panTo(+lng, +lat)
+function onPanTo(lat, lng) {
+    mapService.panTo(+lat, +lng)
+    renderCurrAddress({ lat, lng })
 }
 
 function onPanToMyLocation() {
@@ -61,6 +88,7 @@ function onPanToMyLocation() {
             position = { lat: pos.coords.latitude, lng: pos.coords.longitude }
             mapService.panTo(position.lat, position.lng)
             mapService.addMarker(position)
+            renderCurrAddress(position)
         })
         .catch(err => {
             console.log('err!!!', err)
@@ -80,6 +108,13 @@ function onEnterLocation() {
         // mapService.addMarker(position)
         // get position of that location from 
         // pan to that location and make marker
+}
+
+function renderCurrAddress({ lat, lng }) {
+    const elAddress = document.querySelector('.current-location')
+    mapService.getAddressByCoords(lat, lng).then((res) => {
+        elAddress.innerText = res
+    })
 }
 
 function renderMyPlaces() {
