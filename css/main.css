@@ -1,0 +1,24 @@
+body {
+    background-color: rgb(252, 139, 95);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav>.btn {
+    padding: 10px 20px;
+    background-color: gray;
+    color: whitesmoke;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.4;
+}
+
+nav>.btn:hover {
+    cursor: pointer;
+    background-color: lightgray;
+    color: rgb(44, 44, 44);
+}
