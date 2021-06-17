@@ -4,6 +4,8 @@ const API_MAP_KEY = 'AIzaSyAMclp12v7QqpL_2tVu4S16SDA896NlOnU'
     // 
 var gMap
 var gLocations = []
+var gMarkers = []
+
 export const mapService = {
     initMap,
     addMarker,
@@ -58,11 +60,14 @@ function addMarker(loc) {
         map: gMap,
         title: 'Hello World!'
     })
+    gMarkers.push(marker)
     return marker
 }
 
 function removeLocation(idx) {
     gLocations.splice(idx, 1)
+    gMarkers[idx].setMap(null);
+    gMarkers.splice(idx, 1)
 }
 
 function panTo(lat, lng) {
@@ -73,7 +78,7 @@ function panTo(lat, lng) {
 function searchLocation(value) {
     const words = value.replace(' ', '+')
     const URL = `
-    https://maps.googleapis.com/maps/api/geocode/json?address=${words},+CA&key=${API_GEO_KEY}
+    https://maps.googleapis.com/maps/api/geocode/json?address=${words}&key=${API_GEO_KEY}
     `
     return axios.get(URL)
         .then(res => res.data.results[0].geometry.location)
