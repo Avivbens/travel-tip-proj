@@ -1,6 +1,6 @@
 'use strict'
 const API_GEO_KEY = `AIzaSyCV0HsS3xb7AxL5oWH9U8-smUFLX_v6J94`
-const API_MAP_KEY = 'AIzaSyAMclp12v7QqpL_2tVu4S16SDA896NlOnU'
+const API_MAP_KEY = 'AIzaSyCV0HsS3xb7AxL5oWH9U8-smUFLX_v6J94'
     // 
 var gMap
 var gLocations = []
